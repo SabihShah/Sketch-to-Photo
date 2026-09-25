@@ -19,8 +19,8 @@ Converts a sketch (object, animal, architecture) into a photorealistic image usi
 
 ## Pipeline
 
-1. **Preprocess** (`preprocess_sketch.py`) — cleans and resizes the sketch
-2. **Inference** (`run_controlnet.py`) — extracts a softedge map (PidiNet) and generates a photorealistic image via ControlNet + SD1.5
+1. **Preprocess** (`preprocess.py`) — cleans and resizes the sketch
+2. **Inference** (`run.py`) — extracts a softedge map (PidiNet) and generates a photorealistic image via ControlNet + SD1.5
 3. **LoRA training** (`train_lora.py`, optional) — fine-tunes the UNet if pretrained output isn't sufficient
 
 ## Setup
@@ -33,7 +33,7 @@ pip install diffusers transformers accelerate xformers controlnet_aux peft --bre
 
 **1. Preprocess a sketch**
 ```bash
-python preprocess_sketch.py --input sketch.jpg --output processed.jpg --denoise --no_pad
+python preprocess.py --input sketch.jpg --output processed.jpg --denoise --no_pad
 ```
 - `--denoise`: apply denoising (recommended for scanned/hand-drawn sketches)
 - `--no_pad`: direct resize to 512x512 instead of aspect-preserving pad (avoids frame artifacts in generation; use this by default)
@@ -41,7 +41,7 @@ python preprocess_sketch.py --input sketch.jpg --output processed.jpg --denoise 
 
 **2. Generate the photorealistic image**
 ```bash
-python run_controlnet.py --input processed.jpg --output result.jpg \
+python run.py --input processed.jpg --output result.jpg \
   --prompt "a photorealistic ceramic coffee mug, studio product photography, soft lighting, plain background, high detail"
 ```
 Key params:
@@ -102,6 +102,6 @@ Train a LoRA when:
 
 | File | Purpose |
 |---|---|
-| `preprocess_sketch.py` | OpenCV sketch cleanup/resize |
-| `run_controlnet.py` | ControlNet + SD1.5 inference, with optional LoRA loading |
+| `preprocess.py` | OpenCV sketch cleanup/resize |
+| `run.py` | ControlNet + SD1.5 inference, with optional LoRA loading |
 | `train_lora.py` | LoRA fine-tuning on the UNet (untested against real data — validate before relying on it) |

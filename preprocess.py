@@ -7,16 +7,6 @@ import os
 def preprocess_sketch(
     input_path, output_path, size=512, denoise=True, adaptive_thresh=False, pad=True
 ):
-    """
-    Load a sketch image and prepare it for ControlNet conditioning.
-
-    Args:
-        input_path: path to raw sketch image
-        output_path: path to save processed sketch
-        size: target square size (ControlNet default 512)
-        denoise: apply denoising (useful for hand-drawn/scanned sketches)
-        adaptive_thresh: apply adaptive thresholding to clean up lines
-    """
     img = cv2.imread(input_path, cv2.IMREAD_GRAYSCALE)
     if img is None:
         raise FileNotFoundError(f"Could not read image at {input_path}")
@@ -55,9 +45,9 @@ def preprocess_sketch(
     # Convert back to 3-channel for ControlNet input
     output_img = cv2.cvtColor(canvas, cv2.COLOR_GRAY2BGR)
 
-    cv2.imshow("Processed Sketch", output_img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # cv2.imshow("Processed Sketch", output_img)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
     cv2.imwrite(output_path, output_img)
     print(f"Saved processed sketch: {output_path}")
